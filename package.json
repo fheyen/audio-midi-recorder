@@ -1,0 +1,24 @@
+{
+  "name": "audio-midi-recorder",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npx gh-pages -d dist"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^1.1.0",
+    "gh-pages": "^4.0.0",
+    "npm-check-updates": "^16.4.1",
+    "standard": "^17.0.0",
+    "svelte": "^3.52.0",
+    "vite": "^3.2.3"
+  },
+  "dependencies": {
+    "@js-temporal/polyfill": "^0.4.3",
+    "musicvis-lib": "^0.57.1"
+  }
+}
