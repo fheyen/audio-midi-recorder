@@ -25,6 +25,7 @@
   ? JSON.parse(localStorage.getItem("oldnames"))
   : []
   let fileName = ""
+  let addDate =  localStorage.getItem("adddate") === "true"
   let audio
   let midi
 
@@ -41,8 +42,14 @@
   }
 
   const download = () => {
-    downloadTextFile(midi, fileName)
-    downloadBlob(audio, fileName)
+    const name = addDate
+    ? `${fileName} ${Temporal.Now.plainDateTimeISO()
+      .toJSON()
+      .substring(0, 16)
+      .replace(":", "-")}`
+    : fileName
+    downloadTextFile(midi, name)
+    downloadBlob(audio, name)
     // Store filename
     let oldnames = []
     try {
@@ -98,12 +105,12 @@
       {/each}
     </datalist>
     <button
-      on:click={()=>fileName = `${fileName} ${Temporal.Now.plainDateTimeISO()
-      .toJSON()
-      .substring(0, 16)
-      .replace(":", "-")}`}
+      on:click={()=>{
+        addDate = !addDate;
+        localStorage.setItem("adddate", addDate?"true":"false")
+      }}
     >
-      add date
+      {addDate? "date added to name":"date not added to name"}
     </button>
 
     <button
