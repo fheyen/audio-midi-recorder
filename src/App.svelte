@@ -134,8 +134,7 @@
     Make sure your browser supports <a href="https://caniuse.com/midi" target="_blank" rel="noreferrer">Web MIDI</a>.
     You can test your MIDI input with <a href="https://github.com/fheyen/midi-pianoroll" target="_blank" rel="noreferrer">this tool</a>.
   </div>
+  <div>
+    Usage: Press <i>start</i> to start recording, <i>stop</i> to stop it. Give your recording a name and download the audio and MIDI files.
+  </div>
 </main>
-
-<style>
-
-</style>
