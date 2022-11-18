@@ -27,7 +27,7 @@
   let fileName = ""
   let addDate =  localStorage.getItem("adddate") === "true"
   let audio
-  let midi
+  let notes
 
   const start = ()=>{
     console.log("start")
@@ -37,18 +37,21 @@
 
   const stop = async ()=>{
     console.log("stop")
-    midi = midiRecorder.stop()
     audio = await audioRecorder.stop()
+    notes = midiRecorder.stop()
   }
 
   const download = () => {
+    const now = Temporal.Now.plainDateTimeISO().toJSON();
     const name = addDate
-    ? `${fileName} ${Temporal.Now.plainDateTimeISO()
-      .toJSON()
-      .substring(0, 16)
+    ? `${fileName} ${now.substring(0, 16)
       .replace(":", "-")}`
     : fileName
-    downloadTextFile(midi, name)
+    const json = {
+      date: now,
+      notes
+    }
+    downloadTextFile(JSON.stringify(json), name)
     downloadBlob(audio, name)
     // Store filename
     let oldnames = []
@@ -70,6 +73,7 @@
   const downloadTextFile = (text, fileName) => {
     const a = document.createElement("a")
     a.href = "data:text/plaincharset=utf-8," + encodeURIComponent(text)
+    // a.href = "data:json/plaincharset=utf-8," + encodeURIComponent(text)
     a.download = fileName
     document.body.appendChild(a)
     a.click()
@@ -115,7 +119,7 @@
 
     <button
       on:click={download}
-      disabled={!audio || !midi ||  fileName.length===0}
+      disabled={!audio || !notes ||  fileName.length===0}
     >
       download
     </button>
