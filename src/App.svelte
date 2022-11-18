@@ -3,8 +3,18 @@
   import { Temporal } from '@js-temporal/polyfill'
   import { onMount } from "svelte"
 
+  // Recorders
   let audioRecorder
   let midiRecorder
+  // Settings
+  let oldnames = localStorage.getItem("oldnames")
+  ? JSON.parse(localStorage.getItem("oldnames"))
+  : []
+  let addDate =  localStorage.getItem("adddate") === "true"
+  // Data
+  let fileName = ""
+  let audio
+  let notes
 
   onMount(async ()=>{
     try {
@@ -21,13 +31,6 @@
     }
   })
 
-  let oldnames = localStorage.getItem("oldnames")
-  ? JSON.parse(localStorage.getItem("oldnames"))
-  : []
-  let fileName = ""
-  let addDate =  localStorage.getItem("adddate") === "true"
-  let audio
-  let notes
 
   const start = ()=>{
     console.log("start")
@@ -48,10 +51,11 @@
       .replace(":", "-")}`
     : fileName
     const json = {
+      name: fileName,
       date: now,
       notes
     }
-    downloadTextFile(JSON.stringify(json), name)
+    downloadTextFile(JSON.stringify(json), `${name}.json`)
     downloadBlob(audio, name)
     // Store filename
     let oldnames = []
@@ -147,5 +151,8 @@
   </div>
   <div>
     Usage: Press <i>start</i> to start recording, <i>stop</i> to stop it. Give your recording a name and download the audio and MIDI files.
+  </div>
+  <div>
+    Source code at <a href="https://github.com/fheyen/audio-midi-recorder" target="_blank" rel="noreferrer">GitHub</a>.
   </div>
 </main>
